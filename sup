@@ -1,0 +1,58 @@
+#! /bin/bash
+
+daily_note_prefix=${DAILY_NOTE_PREFIX:-daily_}
+
+help() {
+cat <<-DESCRIPTION
+A simple tool for keeping track of daily/standup/scrum notes on top of excellent vim-notes plugin by @xolox
+
+Helps you keep track of - What did I work on yesterday,  what am I going to do today and blockers in files
+named by dates
+
+    Usage:
+        sup [+-days to open]
+
+        sup  # will open notes for today
+        sup -1 # will open notes for yesterday
+        sup +1 # will open notes for tomorrow
+DESCRIPTION
+}
+
+adjustDate() {
+    delta=$1
+
+    if [ $delta -lt 0 ]; then
+        adjustedDelta="$delta"
+    elif [[ $delta == *\+* ]]; then
+        adjustedDelta="$delta"
+    else
+        adjustedDelta="+$delta"
+    fi
+}
+
+action=$( printf "%s\n" "$ACTION" | tr 'A-Z' 'a-z' )
+
+if [[ "$1" = "-h" ]]; then
+    help
+    exit 0
+fi
+
+if [[ "$#" -ge 2 ]]; then
+    echo "ERROR: Too many args, try sup -h"
+    help
+    exit 1
+fi
+
+if [ "$#" -eq 1 ]; then
+    if [ "$1" -eq "$1" 2> /dev/null ]; then
+        adjustDate $1
+        note_day=$daily_note_prefix$(date -v "$adjustedDelta"d +"%Y_%m_%d")
+    else
+        echo "ERROR: Day delta $1 is non-numeric, try sup -h"
+        exit 1
+    fi
+else
+    note_day=$daily_note_prefix$(date +"%Y_%m_%d")
+fi
+
+vim note:$note_day
