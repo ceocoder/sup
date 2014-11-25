@@ -10,6 +10,15 @@ for standup/daily/scrum updates for "yesterday/today/blockers" (thank you @marco
 ## Prerequisites
 * Working vim ([sample vimrc]) with with [vim-notes],
 
+## Usage
+
+Run sup without anything to open note for today - with days delta to open notes for future or past
+```
+sup
+sup +2
+sup -2
+```
+
 ## Setup
 * clone/copy/curl the file into `/usr/local/bin` or anywhere in your path and make it executable
 
