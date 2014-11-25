@@ -21,6 +21,9 @@ sup -2
 
 ## Setup
 * clone/copy/curl the file into `/usr/local/bin` or anywhere in your path and make it executable
+* by default it will use `daily_` as notes prefix - you can override that by setting `DAILY_NOTE_PREFIX` environment
+variable
+
 
 
 ## TODO
